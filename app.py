@@ -11,10 +11,11 @@ st.title("Ticket Readiness Checker")
 st.write(
     "Ticket Readiness Checker scores a pasted ticket 0–100 across six readiness criteria "
     "(goal, acceptance criteria, scope, dependencies, test plan, constraints) and flags "
-    "what's missing before it gets handed to a coding agent. I built it end-to-end using "
-    "GitHub Spec Kit's spec-driven development process — constitution, spec, plan, tasks, "
-    "implement — to experience firsthand what a single-player version of the workflow "
-    "Command is building for teams actually feels like, including where it breaks."
+    "what's missing before it gets handed to a coding agent."
+)
+st.write(
+    "Built end-to-end using GitHub Spec Kit's spec-driven development process — "
+    "constitution, spec, plan, tasks, implement."
 )
 st.write(
     "Paste a software ticket below to see how ready it is to hand off to an AI coding "
