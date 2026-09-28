@@ -1,0 +1,60 @@
+criteria:
+  - key: goal
+    label: "Goal"
+    weight: 1.5
+    description: >
+      Does the ticket clearly state what it is trying to achieve and why? An AI coding
+      agent needs an unambiguous statement of the intended outcome before it can start
+      working.
+    missing_item_examples:
+      - "No clear statement of what the ticket is trying to achieve"
+      - "The goal is implied but never stated directly"
+
+  - key: acceptance_criteria
+    label: "Acceptance Criteria"
+    weight: 2.0
+    description: >
+      Does the ticket define specific, checkable pass/fail conditions for when the work
+      is done? Vague success language ("works correctly") does not count.
+    missing_item_examples:
+      - "No pass/fail conditions stated"
+      - "Success is described vaguely (e.g. 'works correctly') instead of as checkable conditions"
+
+  - key: scope
+    label: "Scope"
+    weight: 1.5
+    description: >
+      Does the ticket say what is and is not included? An AI agent needs explicit
+      boundaries to avoid touching unrelated code.
+    missing_item_examples:
+      - "No statement of what is out of scope"
+      - "Unclear which parts of the system this ticket touches"
+
+  - key: dependencies
+    label: "Dependencies"
+    weight: 1.0
+    description: >
+      Does the ticket name the other systems, services, libraries, or tickets this work
+      depends on, if any?
+    missing_item_examples:
+      - "No mention of dependent services or libraries"
+      - "Unclear if this ticket depends on other in-progress work"
+
+  - key: test_plan
+    label: "Test Plan"
+    weight: 1.5
+    description: >
+      Does the ticket describe how the change will be verified (unit tests, manual
+      steps, or both)?
+    missing_item_examples:
+      - "No test plan described"
+      - "No mention of how the change will be verified"
+
+  - key: constraints
+    label: "Constraints"
+    weight: 1.0
+    description: >
+      Does the ticket name any constraints the implementation must respect (performance,
+      security, compatibility, style, etc.)?
+    missing_item_examples:
+      - "No constraints or non-functional requirements mentioned"

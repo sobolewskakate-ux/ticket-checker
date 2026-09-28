@@ -36,12 +36,12 @@ Single flat Python project at the repository root (per plan.md's Structure Decis
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create the project skeleton at the repository root per plan.md's Project
+- [X] T001 Create the project skeleton at the repository root per plan.md's Project
       Structure: empty `app.py`, `scoring.py`, `parsing.py`, `groq_client.py`,
       `rubric.yaml`, and a `tests/unit/` directory
-- [ ] T002 Create `requirements.txt` at the repository root listing `streamlit`, `groq`,
+- [X] T002 Create `requirements.txt` at the repository root listing `streamlit`, `groq`,
       `pyyaml`, and `pytest`
-- [ ] T003 [P] Create `.env.example` at the repository root with a single line
+- [X] T003 [P] Create `.env.example` at the repository root with a single line
       `GROQ_API_KEY=your-key-here` (placeholder only) and a `.gitignore` at the
       repository root excluding `.env`, `.venv/`, and `__pycache__/`
 
@@ -56,26 +56,26 @@ depends on
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 [P] Populate `rubric.yaml` at the repository root with exactly six criteria —
+- [X] T004 [P] Populate `rubric.yaml` at the repository root with exactly six criteria —
       `key` values `goal`, `acceptance_criteria`, `scope`, `dependencies`, `test_plan`,
       `constraints` — each with a `label` (str), `description` (str), and `weight`
       (number, MUST be > 0), per contracts/rubric-config.md
-- [ ] T005 [P] In `scoring.py`, implement the `RubricCriterion` and `CriterionScore`
+- [X] T005 [P] In `scoring.py`, implement the `RubricCriterion` and `CriterionScore`
       dataclasses per data-model.md (`CriterionScore.score`: int in `[0, 100]`;
       `CriterionScore.missing_items`: list[str], non-empty only when `score < 50`) and a
       `RubricConfigError` exception class
-- [ ] T006 [P] In `parsing.py`, implement the `ReadinessAssessment` and
+- [X] T006 [P] In `parsing.py`, implement the `ReadinessAssessment` and
       `EvaluationOutcome` dataclasses per data-model.md (`EvaluationOutcome.status`: one
       of `"ok"`, `"too_short"`, `"too_long"`; `assessment` present only when
       `status == "ok"`; `guidance_message` present when `status` is `"too_short"` or
       `"too_long"`; `proposed_split` present only when `status == "too_long"`) and a
       `ParsingError` exception class
-- [ ] T007 [P] In `groq_client.py`, implement `get_completion(prompt: str) -> str`: read
+- [X] T007 [P] In `groq_client.py`, implement `get_completion(prompt: str) -> str`: read
       `GROQ_API_KEY` (required) and `GROQ_MODEL` (optional, with a default) from
       `os.environ` — never as a parameter default — call the Groq API with
       `response_format={"type": "json_object"}`, and raise a `ScoringServiceError` on a
       missing/invalid API key, timeout, rate limit, or non-2xx response
-- [ ] T008 In `scoring.py`, implement `load_rubric(path: str = "rubric.yaml") ->
+- [X] T008 In `scoring.py`, implement `load_rubric(path: str = "rubric.yaml") ->
       list[RubricCriterion]`: parse the YAML, validate it defines exactly the six
       required `key` values each with a non-empty `label`, `description`, and a
       `weight > 0`, and raise `RubricConfigError` with a clear message when the file is
@@ -102,64 +102,64 @@ split appears instead of a single score.
 
 > Write these tests FIRST; they MUST fail before the corresponding implementation task.
 
-- [ ] T009 [US1] Unit test in `tests/unit/test_parsing.py`: `parse_response()` given a
+- [X] T009 [US1] Unit test in `tests/unit/test_parsing.py`: `parse_response()` given a
       valid `status: "ok"` JSON response with all six criteria returns an
       `EvaluationOutcome` with `status == "ok"` and six `CriterionScore` entries with the
       expected `key`/`score`/`missing_items` values
-- [ ] T010 [US1] Unit test in `tests/unit/test_parsing.py`: `parse_response()` raises
+- [X] T010 [US1] Unit test in `tests/unit/test_parsing.py`: `parse_response()` raises
       `ParsingError` when `raw_text` is not valid JSON
-- [ ] T011 [US1] Unit test in `tests/unit/test_parsing.py`: `parse_response()` raises
+- [X] T011 [US1] Unit test in `tests/unit/test_parsing.py`: `parse_response()` raises
       `ParsingError` when `status == "ok"` and a required criterion `key` is missing from
       the response
-- [ ] T012 [US1] Unit test in `tests/unit/test_parsing.py`: `parse_response()` raises
+- [X] T012 [US1] Unit test in `tests/unit/test_parsing.py`: `parse_response()` raises
       `ParsingError` when a criterion's `score` is non-numeric or outside `[0, 100]`
-- [ ] T013 [US1] Unit test in `tests/unit/test_parsing.py`: `parse_response()` given a
+- [X] T013 [US1] Unit test in `tests/unit/test_parsing.py`: `parse_response()` given a
       `status: "too_short"` JSON response returns an `EvaluationOutcome` with
       `status == "too_short"`, `assessment is None`, and a non-empty `guidance_message`
-- [ ] T014 [US1] Unit test in `tests/unit/test_parsing.py`: `parse_response()` given a
+- [X] T014 [US1] Unit test in `tests/unit/test_parsing.py`: `parse_response()` given a
       `status: "too_long"` JSON response returns an `EvaluationOutcome` with
       `status == "too_long"`, `assessment is None`, a non-empty `guidance_message`, and a
       non-empty `proposed_split` list
-- [ ] T015 [P] [US1] Unit test in `tests/unit/test_scoring.py`:
+- [X] T015 [P] [US1] Unit test in `tests/unit/test_scoring.py`:
       `compute_overall_score()` given six `CriterionScore` values and a rubric with
       distinct weights returns the normalized-weight average rounded to the nearest
       integer, verified against a hand-calculated example
 
 ### Implementation for User Story 1
 
-- [ ] T016 [P] [US1] In `parsing.py`, implement `parse_response(raw_text: str,
+- [X] T016 [P] [US1] In `parsing.py`, implement `parse_response(raw_text: str,
       expected_keys: list[str]) -> EvaluationOutcome` per contracts/scoring-interface.md,
       satisfying T009-T014: parse and validate the `status` field, validate all six
       criteria and score ranges for `status == "ok"`, validate `guidance_message` /
       `proposed_split` for the other two statuses, and raise `ParsingError` on any
       violation
-- [ ] T017 [P] [US1] In `scoring.py`, implement `compute_overall_score(criterion_scores:
+- [X] T017 [P] [US1] In `scoring.py`, implement `compute_overall_score(criterion_scores:
       list[CriterionScore], rubric: list[RubricCriterion]) -> int` per
       contracts/scoring-interface.md, satisfying T015: normalize weights
       (`weight_i / sum(all weights)`) and return
       `round(sum(score_i * normalized_weight_i))`
-- [ ] T018 [US1] In `scoring.py`, implement `score_ticket(ticket_text: str, rubric:
+- [X] T018 [US1] In `scoring.py`, implement `score_ticket(ticket_text: str, rubric:
       list[RubricCriterion]) -> EvaluationOutcome`: build a prompt embedding each
       criterion's `label`/`description`/`weight` and `ticket_text`, call
       `groq_client.get_completion()`, call `parsing.parse_response()`, and attach
       `overall_score` via `compute_overall_score()` when `status == "ok"`; propagate
       `ScoringServiceError`/`ParsingError` (depends on T007, T016, T017)
-- [ ] T019 [US1] In `app.py`, render a `st.text_area` for pasting ticket text (FR-001)
+- [X] T019 [US1] In `app.py`, render a `st.text_area` for pasting ticket text (FR-001)
       and a "Check ticket" button that, on click, calls `scoring.score_ticket()` while
       showing a loading indicator (e.g., `st.spinner`) for the duration of the call
       (FR-002, FR-008)
-- [ ] T020 [US1] In `app.py`, guard the button handler: when the pasted text is empty or
+- [X] T020 [US1] In `app.py`, guard the button handler: when the pasted text is empty or
       whitespace-only, show a prompt to enter ticket text and skip calling
       `scoring.score_ticket()` entirely (Edge Case in spec.md)
-- [ ] T021 [US1] In `app.py`, when the result's `status == "ok"`, render all six
+- [X] T021 [US1] In `app.py`, when the result's `status == "ok"`, render all six
       `CriterionScore` entries (label + score) and the `overall_score` (FR-003, FR-004)
-- [ ] T022 [US1] In `app.py`, when the result's `status == "too_short"`, render
+- [X] T022 [US1] In `app.py`, when the result's `status == "too_short"`, render
       `guidance_message` (explaining the expected format and naming all six criteria)
       instead of any scores (FR-013)
-- [ ] T023 [US1] In `app.py`, when the result's `status == "too_long"`, render
+- [X] T023 [US1] In `app.py`, when the result's `status == "too_long"`, render
       `guidance_message` and the `proposed_split` list, and suggest the user copy each
       proposed ticket and re-run the check individually (FR-014)
-- [ ] T024 [US1] In `app.py`, wrap the `scoring.score_ticket()` call in a
+- [X] T024 [US1] In `app.py`, wrap the `scoring.score_ticket()` call in a
       try/except for `RubricConfigError`, `ScoringServiceError`, and `ParsingError`, and
       render `st.error(str(exc))` instead of any partial or fabricated result (FR-009)
 
@@ -179,16 +179,16 @@ criteria score 50+ and confirm no missing-items lists appear anywhere.
 
 ### Tests for User Story 2 ⚠️
 
-- [ ] T025 [US2] Unit test in `tests/unit/test_parsing.py`: `parse_response()` forces a
+- [X] T025 [US2] Unit test in `tests/unit/test_parsing.py`: `parse_response()` forces a
       criterion's `missing_items` to `[]` when its `score >= 50`, even if the raw
       response included items for it (FR-006)
-- [ ] T026 [US2] Unit test in `tests/unit/test_parsing.py`: `parse_response()` preserves
+- [X] T026 [US2] Unit test in `tests/unit/test_parsing.py`: `parse_response()` preserves
       the raw `missing_items` list unchanged for a criterion when its `score < 50`
       (FR-005)
 
 ### Implementation for User Story 2
 
-- [ ] T027 [US2] In `app.py`, under each rendered `CriterionScore` (from T021) with
+- [X] T027 [US2] In `app.py`, under each rendered `CriterionScore` (from T021) with
       `score < 50`, render its `missing_items` as a bulleted list; render no
       missing-items block at all for any criterion with `score >= 50` (FR-005, FR-006)
 
@@ -207,7 +207,7 @@ from the previous check.
 
 ### Implementation for User Story 3
 
-- [ ] T028 [US3] In `app.py`, store the current `EvaluationOutcome` in
+- [X] T028 [US3] In `app.py`, store the current `EvaluationOutcome` in
       `st.session_state` and overwrite it in place on each "Check ticket" click, so that
       re-running the check with edited text fully replaces the previously rendered
       scores, missing-items, and guidance with no leftover state (FR-007)
@@ -218,13 +218,19 @@ from the previous check.
 
 ## Phase 6: Polish & Cross-Cutting Concerns
 
-- [ ] T029 [P] Run `pytest tests/unit -v` and confirm every test in
+- [X] T029 [P] Run `pytest tests/unit -v` and confirm every test in
       `tests/unit/test_parsing.py` and `tests/unit/test_scoring.py` passes
 - [ ] T030 Execute the `quickstart.md` validation scenarios (User Stories 1-3, FR-013,
       FR-014, and error handling) end-to-end against the running app, per
       `specs/001-ticket-readiness-checker/quickstart.md`
-- [ ] T031 [P] Verify `.env` is excluded via `.gitignore` and that no real
+- [X] T031 [P] Verify `.env` is excluded via `.gitignore` and that no real
       `GROQ_API_KEY` value appears in any tracked file (Constitution Principle V)
+
+**T030 status**: Partially validated only. The app was booted headlessly and confirmed
+to start without import/runtime errors (rubric loads, page renders). The scoring
+round-trip scenarios in quickstart.md require a real `GROQ_API_KEY` and interactive
+browser clicks, neither of which is available in this environment — those steps still
+need a manual run by a human with a Groq key before this task can be checked off.
 
 ---
 
