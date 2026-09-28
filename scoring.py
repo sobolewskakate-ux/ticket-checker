@@ -152,11 +152,16 @@ Ticket text:
 \"\"\"
 
 First decide exactly one status:
-- "too_short": the text is too brief to identify any of the six criteria (e.g. a single \
-word or sentence fragment with no real content).
+- "too_short": ONLY use this when the text has NO identifiable action or subject at all \
+(e.g. a single word or fragment like "Bug." or "fix it" or "login"). If the text is at \
+least one complete sentence describing an action, problem, or request — even if vague and \
+missing most of the six criteria — that is NOT "too_short": score it normally as "ok" \
+instead, and let the low-detail criteria simply score low. Being vague is not the same as \
+being too short; only use "too_short" when there is nothing to score at all.
 - "too_long": the text plausibly bundles more than one distinct ticket (e.g. multiple \
 unrelated requests, or a ticket plus large chunks of unrelated log output).
-- "ok": the text is a single ticket that can be scored on its own.
+- "ok": the text is a single ticket that can be scored on its own, including short but \
+complete one-sentence tickets that will simply score low on most criteria.
 
 Respond with ONLY a JSON object (no other text, no markdown fences).
 
